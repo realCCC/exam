@@ -6,7 +6,7 @@ import com.example.exam.entity.Book;
 import com.example.exam.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,5 +28,9 @@ public class BookService {
 
     private BookDTO convertToDto(Book book) {
         return new BookDTO(book.getNumber(), book.getTitle(), book.getContent());
+    }
+
+    public List<Book> searchBooksByKeyword(String keyword) {
+        return bookRepository.findByTitleContainingOrContentContaining(keyword, keyword);
     }
 }
