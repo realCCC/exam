@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Details</title>
+</head>
+<body>
+<h1>Book Details</h1>
+<div>
+  <p>Number: <span th:text="${book.number}"></span></p>
+  <p>Title: <span th:text="${book.title}"></span></p>
+  <p>Content: <span th:text="${book.content}"></span></p>
+
+  <form th:action="@{/book/delete/{id}(id=${book.number})}" method="post">
+    <button type="submit">글 삭제</button>
+  </form>
+
+</div>
+</body>
+</html>

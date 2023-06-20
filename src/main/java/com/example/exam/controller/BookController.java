@@ -4,9 +4,12 @@ import com.example.exam.dto.BookDTO;
 import com.example.exam.entity.Book;
 import com.example.exam.repository.BookRepository;
 import com.example.exam.service.BookService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -20,9 +23,16 @@ public class BookController {
     }
 
     @GetMapping("/book/list")
-    public String bookList(Model model) {
-        List<BookDTO> books = bookService.findAllBooks();
-        model.addAttribute("books", books);
+    public String bookList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int pageSize,
+            Model model) {
+        Page<BookDTO> bookPage = bookService.getBooksByPage(page, pageSize);
+
+        model.addAttribute("books", bookPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", bookPage.getTotalPages());
+
         return "book/list";
     }
     @GetMapping("/book/search")
@@ -31,5 +41,38 @@ public class BookController {
         model.addAttribute("books", searchResults);
         return "book/list";
     }
+
+    @GetMapping("/book/create")
+    public String showCreateForm() {
+        return "/book/create";
+    }
+
+    @PostMapping("/book/create")
+    public String createBook(@RequestParam("title") String title, @RequestParam("content") String content) {
+
+        BookDTO bookDTO = new BookDTO(null, title, content); // 새로운 BookDTO 객체 생성
+        Book savedBook = bookService.saveBook(bookDTO); // BookService를 통해 글을 저장하고 저장된 Book 객체를 반환받음
+
+        // 저장된 글의 번호로 상세 페이지로 리다이렉트
+//        return "redirect:/book/detail/" + savedBook.getNumber();
+        return "redirect:/book/list";
+    }
+
+    @GetMapping("/book/{id}")
+    public String showBookDetails(@PathVariable("id") Long id, Model model) {
+        Book book = bookService.getBookById(id);
+
+        model.addAttribute("book", book);
+
+        return "/book/detail"; // 상세 페이지 템플릿의 이름으로 변경해야 합니다.
+    }
+
+    @PostMapping("/book/delete/{id}")
+    public String deleteBook(@PathVariable("id") Long id) {
+        bookService.deleteBookById(id);
+        return "redirect:/book/list";
+    }
+
+
 
 }

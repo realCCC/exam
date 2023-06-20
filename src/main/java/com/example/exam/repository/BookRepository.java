@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> , QuerydslPredicateExecutor<Book> {
     List<Book> findByTitleContainingOrContentContaining(String titleKeyword, String contentKeyword);
+    Book findById(long id);
 
 }

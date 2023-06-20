@@ -67,17 +67,64 @@
             background-color: #45a049;
         }
 
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+        }
+
+        .pagination a.active {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
+
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
+
+        .create-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .create-button a {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .create-button a:hover {
+            background-color: #45a049;
+        }
 
     </style>
+
 </head>
 <body>
-<h1>Book List</h1>
+<a th:href="@{/book/list}"><h1>Book List</h1></a>
 <table>
     <thead>
     <tr>
         <th>Number</th>
         <th>Title</th>
         <th>Content</th>
+        <th></th>
     </tr>
     </thead>
     <form class="search-form" action="/book/search" method="get">
@@ -89,8 +136,22 @@
         <td th:text="${book.number}"></td>
         <td th:text="${book.title}"></td>
         <td th:text="${book.content}"></td>
+        <td><a class="detail-link" th:href="@{/book/{id}(id=${book.number})}">상세 정보</a></td>
     </tr>
     </tbody>
+
+    <!-- 페이징 처리 -->
+    <div class="pagination">
+        <th:block th:if="${totalPages > 0}">
+            <th:block th:each="page : ${#numbers.sequence(1, totalPages)}">
+                <a th:href="@{/book/list(page=${page}, pageSize=5)}" th:class="${currentPage == page ? 'active' : ''}" th:text="${page}"></a>
+            </th:block>
+        </th:block>
+    </div>
+
+    <div class="create-button">
+        <a href="/book/create">글 작성하기</a>
+    </div>
 </table>
 </body>
 </html>
