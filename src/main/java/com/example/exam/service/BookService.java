@@ -59,5 +59,15 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
+    public Book updateBook(BookDTO bookDTO) {
+        Book book = bookRepository.findById(bookDTO.getNumber())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid book number: " + bookDTO.getNumber()));
+
+        book.setTitle(bookDTO.getTitle());
+        book.setContent(bookDTO.getContent());
+
+        return bookRepository.save(book);
+    }
+
 
 }

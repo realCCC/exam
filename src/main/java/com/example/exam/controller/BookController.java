@@ -7,10 +7,7 @@ import com.example.exam.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -73,6 +70,18 @@ public class BookController {
         return "redirect:/book/list";
     }
 
+    @GetMapping("/book/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Book book = bookService.getBookById(id);
+        model.addAttribute("book", book);
+        return "book/edit";
+    }
 
+    @PostMapping("/book/edit/{id}")
+    public String editBook(@PathVariable("id") Long id, @RequestParam("title") String title, @RequestParam("content") String content) {
+        BookDTO bookDTO = new BookDTO(id, title, content);
+        bookService.updateBook(bookDTO);
+        return "redirect:/book/" + id;
+    }
 
 }
