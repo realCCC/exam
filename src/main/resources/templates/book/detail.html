@@ -3,13 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <title>Book Details</title>
+  <style>
+    /* CSS code for styling the book details page */
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    div {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    button a {
+      text-decoration: none;
+      color: #fff;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+    }
+
+  </style>
 </head>
 <body>
-<a th:href="@{/book/list}"><h1>Book List</h1></a>
+<a th:href="@{/book/list}"><h1>메인 화면으로</h1></a>
 <div>
-  <p>Number: <span th:text="${book.number}"></span></p>
-  <p>Title: <span th:text="${book.title}"></span></p>
-  <p>Content: <span th:text="${book.content}"></span></p>
+  <p>글 번호: <span th:text="${book.number}"></span></p>
+  <p>책 제목: <span th:text="${book.title}"></span></p>
+  <p>내용: <span th:text="${book.content}"></span></p>
 
   <button><a th:href="@{/book/edit/{id}(id=${book.number})}">글 수정</a></button>
   <form th:action="@{/book/delete/{id}(id=${book.number})}" method="post">
