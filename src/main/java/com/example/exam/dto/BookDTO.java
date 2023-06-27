@@ -5,8 +5,6 @@ public class BookDTO {
     private String title;
     private String content;
 
-    public BookDTO() {
-    }
 
     public BookDTO(Long number, String title, String content) {
         this.number = number;

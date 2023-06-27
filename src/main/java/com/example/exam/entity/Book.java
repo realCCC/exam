@@ -21,6 +21,7 @@ public class Book{
         this.content = content;
     }
 
+//    변수에 접근하고 값을 가져오거나 설정하는 데 사용
     public Long getNumber() {
         return number;
     }
