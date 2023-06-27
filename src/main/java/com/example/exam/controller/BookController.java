@@ -65,7 +65,7 @@ public class BookController {
 
         model.addAttribute("book", book);
 
-        return "/book/detail"; // 상세 페이지 템플릿의 이름으로 변경해야 합니다.
+        return "/book/detail";
     }
 
     @PostMapping("/book/delete/{id}")
