@@ -44,6 +44,7 @@
       border: none;
       border-radius: 3px;
       cursor: pointer;
+      margin-right: 10px;
     }
 
     button a {
@@ -57,7 +58,8 @@
 
     .button-group {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start; /* Changed to flex-start to align buttons to the left */
+      margin-top: 10px;
     }
 
   </style>
@@ -69,10 +71,12 @@
   <p>책 제목: <span th:text="${book.title}"></span></p>
   <p>내용: <span th:text="${book.content}"></span></p>
 
-  <button><a th:href="@{/book/edit/{id}(id=${book.number})}">글 수정</a></button>
-  <form th:action="@{/book/delete/{id}(id=${book.number})}" method="post">
-    <button type="submit">글 삭제</button>
-  </form>
+  <div class="button-group">
+    <button><a th:href="@{/book/edit/{id}(id=${book.number})}">글 수정</a></button>
+    <form th:action="@{/book/delete/{id}(id=${book.number})}" method="post">
+      <button type="submit">글 삭제</button>
+    </form>
+  </div>
 
 </div>
 </body>
