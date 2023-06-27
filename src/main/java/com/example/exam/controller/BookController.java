@@ -33,8 +33,12 @@ public class BookController {
         return "book/list";
     }
     @GetMapping("/book/search")
-    public String searchBooks(@RequestParam("keyword") String keyword, Model model) {
-        List<Book> searchResults = bookService.searchBooksByKeyword(keyword);
+    public String searchBooks(
+            @RequestParam("category") String category,
+            @RequestParam("keyword") String keyword,
+            Model model
+    ) {
+        List<BookDTO> searchResults = bookService.searchBooksByCategoryAndKeyword(category, keyword);
         model.addAttribute("books", searchResults);
         return "book/list";
     }

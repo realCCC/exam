@@ -33,9 +33,28 @@ public class BookService {
         return new BookDTO(book.getNumber(), book.getTitle(), book.getContent());
     }
 
-    public List<Book> searchBooksByKeyword(String keyword) {  //키워드로 검색
-        return bookRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+    public List<BookDTO> searchBooksByCategoryAndKeyword(String category, String keyword) {
+        List<Book> books;
+        switch (category) {
+            case "number":
+                books = bookRepository.findByNumberContaining(keyword);
+                break;
+            case "title":
+                books = bookRepository.findByTitleContaining(keyword);
+                break;
+            case "content":
+                books = bookRepository.findByContentContaining(keyword);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid search category: " + category);
+        }
+        return books.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
+
+
+
 
     public Page<BookDTO> getBooksByPage(int page, int size){ //JPA의 Pageable을 사용해 페이징 처리 //페이지별로 책 조회
         Pageable pageable = PageRequest.of(page-1, size);

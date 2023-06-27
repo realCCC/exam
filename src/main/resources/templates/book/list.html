@@ -128,10 +128,21 @@
         <th></th>
     </tr>
     </thead>
-    <form class="search-form" action="/book/search" method="get">
-        <input class="search-input" type="text" name="keyword" placeholder="검색어를 입력하세요">
-        <button class="search-button" type="submit">검색</button>
+
+    <form th:action="@{/book/search}" method="get">
+        <select name="category">
+            <option value="title">책 제목</option>
+            <option value="content">내용</option>
+        </select>
+        <input type="text" name="keyword" required/>
+        <button type="submit">Search</button>
     </form>
+
+
+<!--    <form class="search-form" action="/book/search" method="get">-->
+<!--        <input class="search-input" type="text" name="keyword" placeholder="검색어를 입력하세요">-->
+<!--        <button class="search-button" type="submit">검색</button>-->
+<!--    </form>-->
     <tbody>
     <tr th:each="book : ${books}">
         <td th:text="${book.number}"></td>
